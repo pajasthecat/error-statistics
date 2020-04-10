@@ -4,7 +4,10 @@ open System.IO
 [<EntryPoint>]
 let main argv =
 
-    let getFileAndName (fileName: string) = fileName, fileName |> File.ReadAllLines
+    let getFileAndName (fileName: string) = 
+        fileName 
+        |> fun x -> x.Split '/' 
+        |> fun x -> x.[x.Length-1], fileName |> File.ReadAllLines
 
     let removeFirstLine (filename: string, lines: string []) = filename, lines.[1..lines.Length - 1]
 
@@ -38,7 +41,7 @@ let main argv =
     
     let start (input: string []) = 
         match input.Length with
-        | 0 -> printf "Please provide a path to your files."
+        | 0 -> printf "Please provide the path to your files.\n"
         | _ ->  input.[0] |> files
 
     argv |> start

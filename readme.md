@@ -18,7 +18,7 @@ dotnet pack
 dotnet tool install --global --add-source ./nupkg pg-errors
 ```
 
-3. Use the tool 
+3. Use the tool.
 
 ```ps1
 pg-errors path/to/your/pager/duty/file

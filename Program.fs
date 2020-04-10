@@ -35,8 +35,12 @@ let main argv =
              >> removeFirstLine
              >> getTeamRavenErrors)
         |> printfn "%A,"
+    
+    let start (input: string []) = 
+        match input.Length with
+        | 0 -> printf "Please provide a path to your files."
+        | _ ->  input.[0] |> files
 
-    argv.[0] |> files
+    argv |> start
 
     0
-    

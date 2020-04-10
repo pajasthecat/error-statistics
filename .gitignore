@@ -16,6 +16,7 @@
 # Mono auto generated files
 mono_crash.*
 
+testfiles
 
 .fake
 .ionide
@@ -187,6 +188,7 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
+nupkg
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored because of Package Restore

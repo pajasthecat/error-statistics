@@ -4,6 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>error_statistic_fs</RootNamespace>
+
+  <PackAsTool>true</PackAsTool>
+  <ToolCommandName>pg-errors</ToolCommandName>
+  <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

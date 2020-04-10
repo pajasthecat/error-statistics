@@ -39,3 +39,4 @@ let main argv =
     argv.[0] |> files
 
     0
+    

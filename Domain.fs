@@ -27,6 +27,7 @@ module FileProcessor =
     let formatOutput (values: (int * int) []) = 
         values 
         |> Array.map (fun (week, count) -> week.ToString() + ", " + count.ToString())
+        |> Array.append [|"week, amount of errors."|]
     
     let processFiles(output:(string [] -> unit), path: string) =
         path

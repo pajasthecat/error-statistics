@@ -5,7 +5,7 @@ open FSharp.Data
 
 module FileProcessor = 
     
-    let getFileAndName (fileName: string) = 
+    let getFile (fileName: string) = 
         CsvFile.Load(fileName, hasHeaders = true) 
         |> fun x -> x.Rows 
         |> Seq.map  (fun x -> (x.["escalation_policy_name"], x.["created_on"]))
@@ -33,7 +33,7 @@ module FileProcessor =
         path
         |> Directory.GetFiles
         |> Array.collect
-            (getFileAndName
+            (getFile
              >> getTeamRavenErrors 
              >> formatOutput)
         |> output

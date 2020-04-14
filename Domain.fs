@@ -1,44 +1,40 @@
 module Domain 
 
 open System.IO
+open FSharp.Data
 
 module FileProcessor = 
-
-    let getFileAndName (fileName: string) = 
-        fileName 
-        |> fun x -> x.Split '/' 
-        |> fun x -> x.[x.Length - 1], fileName |> File.ReadAllLines
-
-    let removeFirstLine (filename: string, lines: string []) = filename, lines.[1..lines.Length - 1]
-
-    let splitLine (file: string) = file.Split ','
+    
+    let getFile (fileName: string) = 
+        CsvFile.Load(fileName, hasHeaders = true) 
+        |> fun x -> x.Rows 
+        |> Seq.map  (fun x -> (x.["escalation_policy_name"], x.["created_on"]))
+        |> Seq.toArray
 
     let ifRaven (word: string) =
         if word = "Team Raven" then 1 else 0
 
-    let getPointByLine (line: string []) =
-        line
-        |> Array.map ifRaven
-        |> Array.toList
-        |> List.sum
+    let getPointByLine (team: string, date:string) =
+        team |> ifRaven, 
+        date |> System.DateTime.Parse |> System.Globalization.ISOWeek.GetWeekOfYear
 
-    let getTeamRavenErrors (filename: string, lines: string []) =
-        let sum =
-            lines
-            |> Array.map (splitLine >> getPointByLine)
-            |> Array.toList
-            |> List.sum
-        (filename, sum)
+    let getTeamRavenErrors (values: (string * string) []) =    
+        values
+            |> Array.map getPointByLine
+            |> Array.groupBy (fun (_, week) -> week)
+            |> Array.map (fun (week: int, values) -> week, values |> Array.sumBy (fun (count, _) -> count) )
 
-    let formatOutput (filename: string, count: int) = filename + ", " + count.ToString()
-
-    let processFiles (output:(string [] -> unit), path: string) =
+    let formatOutput (values: (int * int) []) = 
+        values 
+        |> Array.map (fun (week, count) -> week.ToString() + ", " + count.ToString())
+        |> Array.append [|"week, amount of errors."|]
+    
+    let processFiles(output:(string [] -> unit), path: string) =
         path
         |> Directory.GetFiles
-        |> Array.map
-            (getFileAndName
-             >> removeFirstLine
-             >> getTeamRavenErrors
+        |> Array.collect
+            (getFile
+             >> getTeamRavenErrors 
              >> formatOutput)
         |> output
 

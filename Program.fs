@@ -4,7 +4,7 @@ open Domain.FileProcessor
 open Domain.Outputer
 
 type Options = {
-    [<Option('p', "path", Required = true, HelpText = "Path to directory with files.")>] path: string;
+    [<Option('p', "path", Required = true, HelpText = "Path to directory with files. Will process ALL files in directory.")>] path: string;
     [<Option('o', "output", Required = false, HelpText = "Get an output of the result in .csv.")>] output: bool;
 }
 

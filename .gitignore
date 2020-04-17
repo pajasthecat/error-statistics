@@ -201,6 +201,8 @@ nupkg
 *.nuget.props
 *.nuget.targets
 
+.csv
+
 # Microsoft Azure Build Output
 csx/
 *.build.csdef

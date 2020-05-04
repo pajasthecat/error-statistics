@@ -39,6 +39,7 @@ module FileProcessor =
         |> Directory.GetFiles
         |> Array.collect (getFile >> getTeamRavenErrors)
         |> groupAndFlatten
+        |> Array.sortBy (fun (week, _) -> week)
         |> formatOutput
         |> output
 

@@ -29,6 +29,8 @@ module FileProcessor =
         |> Array.map getPointByLine
         |> groupAndFlatten
 
+    let sortByWeek (input: (int*int) array ) = input |> Array.sortBy (fun (week, _) -> week)
+
     let formatOutput (values: (int * int) []) =
         values
         |> Array.map (fun (week, count) -> week.ToString() + ", " + count.ToString())
@@ -39,7 +41,7 @@ module FileProcessor =
         |> Directory.GetFiles
         |> Array.collect (getFile >> getTeamRavenErrors)
         |> groupAndFlatten
-        |> Array.sortBy (fun (week, _) -> week)
+        |> sortByWeek
         |> formatOutput
         |> output
 
